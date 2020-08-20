@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <!-- openlayers -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/css/ol.css"
+    type="text/css">
+  <style>
+    .map {
+      height: 800px;
+      width: 100%;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/build/ol.js"></script>
+</head>
+
+<body>
+  <h2>My Map</h2>
+  <div id="map" class="map"></div>
+
+  <input id="uploadBtn" type="file" accept=".kml" onchange="addKML()">
+
+
+  <script type="text/javascript">
+    const uploadBtn = document.querySelector('#uploadBtn');
+
+
+    // 맵 생성
+    const map = new ol.Map({
+      target: 'map', // getElementById
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        })
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([127.41, 36.82]),
+        zoom: 8
+      })
+    });
+
+
+    // KML 업로드 함수
+    function addKML() {
+      let file = uploadBtn.files[0];
+      if (file) {
+
+        let reader = new FileReader();
+        reader.onload = function () {
+
+          let vector = new ol.layer.Vector({
+            source: new ol.source.Vector({
+              url: reader.result,
+              format: new ol.format.KML()
+            })
+          });
+          map.addLayer(vector); // 맵에 Layer 추가
+
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+</body>
+
+</html>
