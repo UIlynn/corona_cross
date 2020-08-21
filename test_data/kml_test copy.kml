@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"
+    xmlns:gx="http://www.google.com/kml/ext/2.2">
+    <Document>
+        <name> Location history from 2020-07-09 to 2020-07-09 </name>
+        <open>1</open>
+        <description></description>
+        <StyleMap id="multiTrack">
+            <Pair>
+                <key>normal</key>
+                <styleUrl>#multiTrack_n</styleUrl>
+            </Pair>
+            <Pair>
+                <key>highlight</key>
+                <styleUrl>#multiTrack_h</styleUrl>
+            </Pair>
+        </StyleMap>
+        <Style id="multiTrack_n">
+            <IconStyle>
+                <Icon>
+                    <href>https://earth.google.com/images/kml-icons/track-directional/track-0.png</href>
+                </Icon>
+            </IconStyle>
+            <LineStyle>
+                <color>99ffac59</color>
+                <width>6</width>
+            </LineStyle>
+        </Style>
+        <Style id="multiTrack_h">
+            <IconStyle>
+                <scale>1.2</scale>
+                <Icon>
+                    <href>https://earth.google.com/images/kml-icons/track-directional/track-0.png</href>
+                </Icon>
+            </IconStyle>
+            <LineStyle>
+                <color>99ffac59</color>
+                <width>8</width>
+            </LineStyle>
+        </Style>
+        <Placemark>
+            <name>경기도 의왕시 내손2동 661-10</name>
+            <address></address>
+            <ExtendedData>
+                <Data name="Email">
+                    <value>soorte214@gmail.com</value>
+                </Data>
+                <Data name="Category">
+                    <value></value>
+                </Data>
+                <Data name="Distance">
+                    <value>0</value>
+                </Data>
+            </ExtendedData>
+            <description>  from 2020-07-08T13:40:16.478Z to 2020-07-09T01:03:02.339Z. Distance 0m </description>
+            <Point>
+                <coordinates>126.9848739,37.3914423,0</coordinates>
+            </Point>
+            <TimeSpan>
+                <begin>2020-07-08T13:40:16.478Z</begin>
+                <end>2020-07-09T01:03:02.339Z</end>
+            </TimeSpan>
+        </Placemark>
+        <Placemark>
+            <name>On a bus</name>
+            <address></address>
+            <ExtendedData>
+                <Data name="Email">
+                    <value>soorte214@gmail.com</value>
+                </Data>
+                <Data name="Category">
+                    <value>On a bus</value>
+                </Data>
+                <Data name="Distance">
+                    <value>8499</value>
+                </Data>
+            </ExtendedData>
+            <description> On a bus from 2020-07-09T01:03:02.339Z to 2020-07-09T01:27:56.845Z. Distance 8499m </description>
+            <LineString>
+                <altitudeMode>clampToGround</altitudeMode>
+                <extrude>1</extrude>
+                <tesselate>1</tesselate>
+                <coordinates>126.9848739,37.3914423,0 126.9848739,37.3914423,0 126.9854286,37.391123,0 126.9879103,37.3920151,0 126.9878223,37.3920972,0 126.988808,37.3915686,0 126.9961755,37.3895016,0 127.0060651,37.3904105,0 127.0205877,37.3945644,0 127.0607634,37.3918997,0 127.0657086,37.3914457,0 127.0784409,37.391033,0 127.07847599999998,37.390849599999996,0 127.07847599999998,37.390849599999996,0 </coordinates>
+            </LineString>
+            <TimeSpan>
+                <begin>2020-07-09T01:03:02.339Z</begin>
+                <end>2020-07-09T01:27:56.845Z</end>
+            </TimeSpan>
+        </Placemark>
+        <Placemark>
+            <name>디랩코드아카데미 판교캠퍼스 (분당 코딩학원)</name>
+            <address>경기도 성남시 분당구 디랩 운중로138번길 7 KT빌딩 3,4층</address>
+            <ExtendedData>
+                <Data name="Email">
+                    <value>soorte214@gmail.com</value>
+                </Data>
+                <Data name="Category">
+                    <value>교육 센터</value>
+                </Data>
+                <Data name="Distance">
+                    <value>0</value>
+                </Data>
+            </ExtendedData>
+            <description> 교육 센터 from 2020-07-09T01:27:56.845Z to 2020-07-09T01:51:20.935Z. Distance 0m </description>
+            <Point>
+                <coordinates>127.078476,37.390849599999996,0</coordinates>
+            </Point>
+            <TimeSpan>
+                <begin>2020-07-09T01:27:56.845Z</begin>
+                <end>2020-07-09T01:51:20.935Z</end>
+            </TimeSpan>
+        </Placemark>
+    </Document>
+</kml>

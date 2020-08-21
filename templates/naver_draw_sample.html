@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간단한 지도 표시하기</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l9t7djgnzb"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=drawing"></script>
+    </script>
+</head>
+
+<body>
+    <form id="FILE_FORM" method="post" enctype="multipart/form-data" action="">
+        <input type="file" id="user_file_btn" accept=".kml, .kmz, .gpx">
+    </form>
+
+    <button id="saveBtn">저장하기</button>
+
+    <div id="map" style="width:100%;height:400px;"></div>
+
+    <!-- side box -->
+    <!-- <div id="sidebar" style="height: 760px; width: 250px; border: 1px dashed black;">
+        <table id="sidebarTABLE">
+            <tbody id="sidebarTBODY">
+                <tr>
+                    <td><input type="checkbox" id="userAdded1"></td>
+                    <td>kml_test.kml</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="userAdded2"></td>
+                    <td>kml_test - 복사본.kml</td>
+                </tr>
+            </tbody>
+        </table>
+    </div> -->
+
+    <p>검색하고자 하는 아이템을 입력하세요.</p>
+    <input type = "text" name="SensorID" id="SensorID"/>
+    <input type = "button" value = "데이터 요청" onclick="test()"/>
+
+    <script>
+        var map = new naver.maps.Map('map', {
+            zoomControl: true,
+            zoomControlOptions: {
+                style: naver.maps.ZoomControlStyle.LARGE,
+                position: naver.maps.Position.TOP_RIGHT
+            },
+            mapTypeControl: true,
+            zoom: 15
+        });
+
+
+        var drawingManager;
+        naver.maps.Event.once(map, 'init_stylemap', function() {
+            drawingManager = new naver.maps.drawing.DrawingManager({map: map});
+            drawingManager.addDrawing(rect, naver.maps.drawing.DrawingMode.RECTANGLE, 'my-id');
+            drawingManager.addDrawing(polygon, naver.maps.drawing.DrawingMode.POLYGON);
+        });
+  
+        var geojson;
+
+        $("#saveBtn").on("click", function(e) {
+            e.preventDefault();
+
+            // if (geojson) {
+            //     restoreMap.data.removeGeoJson(geojson);
+            //     geojson = null;
+            // }
+
+            geojson = drawingManager.toGeoJson();
+            // restoreMap.data.addGeoJson(geojson, true);
+
+            // var data = JSON.parse(geojson);
+            // var data = 3;
+            // var data = geojson;
+            var data = JSON.stringify(geojson);
+            $.ajax({
+                type:'POST',
+                url : '/receiveJson',
+                contentType: "application/json",
+                data : data,
+                error : function(error) {
+                    alert("Error!");
+                },
+                success : function(data) {
+                    alert("success!");
+                },
+                complete : function() {
+                    alert("complete!");    
+                }
+            })
+        });
+
+
+        function test(){
+            var text_data = $('#SensorID').val();
+            $.ajax({
+                type : 'POST',                                  
+                url : '/request',
+                data : {
+                        SensorID:text_data                       
+                },
+                dataType : 'JSON',
+                success : function(result){
+                        console.dir(result)
+                },
+                error : function(xtr,status,error){
+                        console.log(xtr +":"+status+":"+error);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

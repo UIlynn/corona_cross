@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document id="1RVylmWObfWz1vB3B-LLaMH3aoRAb_mFu">
+	<name>1</name>
+	<gx:CascadingStyle kml:id="__managed_style_275F0E7E301541DE15A4">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>6</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1F0004698C1541DE15A4">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0B4F58A44D1541DE15A4">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1F0004698C1541DE15A4</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_275F0E7E301541DE15A4</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_235B81B1691541DC91AE">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=fbc02d&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>6</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<gx:displayMode>card</gx:displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_14B2FAB7681541DC91AE">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/rpc/cc/icon?color=fbc02d&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<gx:displayMode>card</gx:displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0B9260DB941541DC91AE">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_14B2FAB7681541DC91AE</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_235B81B1691541DC91AE</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Placemark id="038F1CF3061541DC1B3F">
+		<name>롯데마트 의왕점</name>
+		<gx:mid>/g/1tf7_hw0</gx:mid>
+		<gx:fid>0x357b5e0c58357a77:0xf0642c19cb74a12f</gx:fid>
+		<LookAt>
+			<longitude>126.9728364</longitude>
+			<latitude>37.3804741</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>818.8803497889465</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0B9260DB941541DC91AE</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>126.9728364,37.3804741,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="05B79D21F71541DCB720">
+		<name>신한은행 의왕지점</name>
+		<gx:mid>/g/1tcx4y9j</gx:mid>
+		<gx:fid>0x357b5e0bf5c0f85f:0x954fc112c425baeb</gx:fid>
+		<LookAt>
+			<longitude>126.9714199</longitude>
+			<latitude>37.3794464</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>818.8926676004544</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0B9260DB941541DC91AE</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>126.9714199,37.3794464,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="00CCB531F81541DD00C6">
+		<name>인덕원사거리.인덕원역</name>
+		<gx:mid>/m/03gv_tw</gx:mid>
+		<gx:fid>0x357b5e48088b5e5b:0xffb2d6d436427e12</gx:fid>
+		<LookAt>
+			<longitude>126.976384</longitude>
+			<latitude>37.400807</latitude>
+			<altitude>0</altitude>
+			<heading>0</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>818.6365903440393</range>
+			<altitudeMode>relativeToGround</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0B9260DB941541DC91AE</styleUrl>
+		<Point>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<coordinates>126.976384,37.400807,0</coordinates>
+		</Point>
+	</Placemark>
+	<Placemark id="0D9AD356031541DE15A4">
+		<name>이동경로</name>
+		<LookAt>
+			<longitude>126.9782291939097</longitude>
+			<latitude>37.38890708196489</latitude>
+			<altitude>52.66775893430007</altitude>
+			<heading>16.1276909618516</heading>
+			<tilt>0</tilt>
+			<gx:fovy>35</gx:fovy>
+			<range>5344.986559198005</range>
+			<altitudeMode>absolute</altitudeMode>
+		</LookAt>
+		<styleUrl>#__managed_style_0B4F58A44D1541DE15A4</styleUrl>
+		<LineString>
+			<coordinates>
+				126.9769335619452,37.40158262239196,37.26571093065391 126.9772109111706,37.39790252431346,38.80894636708283 126.9730840054156,37.38865506308951,42.24189355661569 126.9718053169735,37.37974165774821,61.27942270195993 126.9731171905874,37.38102114959771,61.63623016335175 
+			</coordinates>
+		</LineString>
+	</Placemark>
+</Document>
+</kml>

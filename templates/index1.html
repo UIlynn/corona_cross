@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <!-- openlayers -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/css/ol.css"
+    type="text/css">
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.3/build/ol.js"></script>
+
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
+
+  <style>
+    .map {
+      height: 400px;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>My Map</h2>
+  <input id="uploadBtn" type="file" accept=".kml">
+  <div id="map" class="map"></div>
+
+
+  <script type="text/javascript">
+    const uploadBtn = document.querySelector('#uploadBtn'); // 업로드 버튼
+
+
+    // 맵 생성
+    const map = new ol.Map({
+      target: 'map', // getElementById
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        })
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([127.41, 36.99]),
+        zoom: 8
+      })
+    });
+
+
+    // 날짜별 데이터 가져오기
+    // 날짜별 kml 파일 가져오기
+    let file_list;
+
+    function loadDateKml() {
+      fetch('./data/20200821/list.json').then(async function (response) {
+        file_list = await response.json()
+        return file_list
+      }).then(function (file_list) {
+        console.log(file_list[0], `./data/20200821/${file_list[0]}.kml`)
+        // 반복하기
+        file_list.forEach(fp => {
+          console.log(`./data/20200821/${fp}.kml`)
+          drawKmlLayer(`./data/20200821/${fp}.kml`)
+        })
+      })
+    }
+
+
+
+    // 전달 받은 파일로 KML Layer draw 그리기
+    function drawKmlLayer(file) {
+      if (file) {
+        let reader = new FileReader();
+        reader.onload = function () {
+          let vector = new ol.layer.Vector({
+            source: new ol.source.Vector({
+              url: reader.result,
+              format: new ol.format.KML()
+            })
+          });
+          map.addLayer(vector); // 맵에 Layer 추가
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+    
+    // 업로드한 kml 파일 확인
+    function drawUploadKmlLayer(event) {
+      // console.log("drawUploadKmlLayer exec");
+      const file = event.target.files[0];
+
+      drawKmlLayer(file) // You could insert a check here to ensure proper file type
+    }
+
+    // 초기화
+    function init() {
+      uploadBtn.addEventListener('change', drawUploadKmlLayer) // 업로드 버튼에 이벤트 추가
+
+      loadDateKml() // 테스트 용
+    }
+
+    init()
+  </script>
+</body>
+
+</html>

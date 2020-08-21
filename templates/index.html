@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간단한 지도 표시하기</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l9t7djgnzb">
+    </script>
+</head>
+
+<body>
+    <form id="FILE_FORM" method="post" enctype="multipart/form-data" action="">
+        <input type="file" id="user_file_btn" accept=".kml, .kmz, .gpx">
+    </form>
+
+    <div id="map" style="width:100%;height:400px;"></div>
+
+    <!-- side box -->
+    <div id="sidebar" style="height: 760px; width: 250px; border: 1px dashed black;">
+        <table id="sidebarTABLE">
+            <tbody id="sidebarTBODY">
+                <tr>
+                    <td><input type="checkbox" id="userAdded1"></td>
+                    <td>kml_test.kml</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="userAdded2"></td>
+                    <td>kml_test - 복사본.kml</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const map_div = document.querySelector('#map') // map div
+        let user_file_btn = document.querySelector('#user_file_btn'); // 유저 업로드 파일 버튼
+        
+
+        // 맵 옵션 생성
+        let mapOptions = {
+            center: new naver.maps.LatLng(37.3595704, 127.105399),
+            mapTypeId: 'normal',
+            zoom: 10
+        };
+
+        var map = new naver.maps.Map(map_div, mapOptions);
+
+        // kml 레이어 표시하기
+        var HOME_PATH = window.HOME_PATH || '.';
+
+        var drawingManager;
+        naver.maps.Event.once(map, 'init_stylemap', function() {
+            drawingManager = new naver.maps.drawing.DrawingManager({map: map});
+            // drawingManager.addDrawing(rect, naver.maps.drawing.DrawingMode.RECTANGLE, 'my-id');
+            // drawingManager.addDrawing(polygon, naver.maps.drawing.DrawingMode.POLYGON);
+        });
+
+        // 맨 처음 그리기
+        // naver.maps.Event.once(map, 'init_stylemap', function () {
+        //     $.ajax({
+        //         url: "{{url_for('static',filename = 'kml_test.kml')}}",
+        //         // url: HOME_PATH + '/data/seorak.kml',
+        //         dataType: 'xml',
+        //         success: startDataLayer
+        //     });
+        // });
+
+        
+        // var xl;
+        function startDataLayer(xmlDoc) {
+            xl = xmlDoc;
+            console.log("startDataLayer:", xmlDoc);
+            map.data.addKml(xmlDoc);
+        }
+
+        
+        // let el;
+
+
+        // 날짜별 kml 파일 가져오기
+        let file_list;
+        function loadDateKml(){
+            fetch('./data/20200821/list.json').then(async function(response){
+                file_list = await response.json()
+                return file_list
+            }).then(function(file_list){
+                console.log(file_list[0], `./data/20200821/${file_list[0]}.kml`)
+                // 반복하기
+                file_list.forEach(fp =>{
+                    console.log(`./data/20200821/${fp}.kml`)
+                    $.ajax({
+                        url: `./data/20200821/${fp}.kml`,
+                        dataType: 'xml',
+                        success: startDataLayer
+                    });
+                })  
+            })
+        }
+
+
+        // 파일 정보를 불러와서 layer그리기
+        function drawKmlLayer(file){
+            const reader = new FileReader();
+            reader.readAsText(file);
+            reader.onloadend = () => {
+                // console.log(reader.result);
+                const oParser = new DOMParser();
+                userKml = oParser.parseFromString(reader.result, "text/xml");
+                console.log(userKml);
+
+                // set lineStyle
+                map.data.setStyle((feature) => {
+                    const color = 'blue';
+                    if (feature.getProperty('color')) {
+                        color = feature.getProperty('color');
+                    }
+                    return {
+                        strokeWeight : 5,
+                        strokeColor: color,
+                        fillColor: color
+                    };
+                });
+
+                // draw line
+                map.data.addKml(userKml);
+            };
+        }
+
+
+        // 업로드한 kml 파일 지도에 그리기
+        function drawUploadKmlLayer(event) {
+            // console.log("drawUploadKmlLayer exec");
+            const file = event.target.files[0];
+
+            // You could insert a check here to ensure proper file type
+            drawKmlLayer(file)
+            
+        }
+        
+
+        // 초기화
+        function init(){
+            // 업로드 버튼에 이벤트 추가
+            user_file_btn.addEventListener('change', drawUploadKmlLayer)
+
+            // 테스트 용
+            // loadDateKml()
+        }
+
+        init()
+
+    </script>
+</body>
+
+</html>
