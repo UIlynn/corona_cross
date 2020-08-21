@@ -48,14 +48,9 @@ def receive_json():
 def draw_test():
     return render_template('naver_draw_sample.html')
 
-@app.route('/request', methods =['POST'])
-def query():
-    value = request.form['SensorID']
-    
-    data= {"a":3}            
-    jsondata=json.dumps(data)  
-    
-    return jsondata
+@app.route('/cross_check')
+def cross_check():
+    return render_template('cross_check.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

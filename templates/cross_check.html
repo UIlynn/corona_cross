@@ -13,16 +13,33 @@
 </head>
 
 <body>
+    <form id="FILE_FORM" method="post" enctype="multipart/form-data" action="">
+        <input type="file" id="user_file_btn" accept=".kml, .kmz, .gpx">
+    </form>
 
-    <!-- 저장 버튼 -->
-    <span>확진자 번호</span>
-    <input id="personNo" type="text">
-    <span>확진자 경로</span>
-    <input id="personDate" type="date">
     <button id="saveBtn">저장하기</button>
 
-    <!-- 지도 div -->
-    <div id="map" style="width:100%;height:90vh;"></div>
+    <div id="map" style="width:100%;height:400px;"></div>
+
+    <!-- side box -->
+    <!-- <div id="sidebar" style="height: 760px; width: 250px; border: 1px dashed black;">
+        <table id="sidebarTABLE">
+            <tbody id="sidebarTBODY">
+                <tr>
+                    <td><input type="checkbox" id="userAdded1"></td>
+                    <td>kml_test.kml</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" id="userAdded2"></td>
+                    <td>kml_test - 복사본.kml</td>
+                </tr>
+            </tbody>
+        </table>
+    </div> -->
+
+    <p>검색하고자 하는 아이템을 입력하세요.</p>
+    <input type = "text" name="SensorID" id="SensorID"/>
+    <input type = "button" value = "데이터 요청" onclick="test()"/>
 
     <script>
         var map = new naver.maps.Map('map', {
@@ -39,7 +56,8 @@
         var drawingManager;
         naver.maps.Event.once(map, 'init_stylemap', function() {
             drawingManager = new naver.maps.drawing.DrawingManager({map: map});
-            // drawingManager.addDrawing(polygon, naver.maps.drawing.DrawingMode.POLYGON); // 폴리곤 그리기 예제
+            drawingManager.addDrawing(rect, naver.maps.drawing.DrawingMode.RECTANGLE, 'my-id');
+            drawingManager.addDrawing(polygon, naver.maps.drawing.DrawingMode.POLYGON);
         });
   
         var geojson;
@@ -47,8 +65,17 @@
         $("#saveBtn").on("click", function(e) {
             e.preventDefault();
 
-            geojson = drawingManager.toGeoJson(); // 현재 그리기를 toGeoJson 객체로 만들기
+            // if (geojson) {
+            //     restoreMap.data.removeGeoJson(geojson);
+            //     geojson = null;
+            // }
 
+            geojson = drawingManager.toGeoJson();
+            // restoreMap.data.addGeoJson(geojson, true);
+
+            // var data = JSON.parse(geojson);
+            // var data = 3;
+            // var data = geojson;
             var data = JSON.stringify(geojson);
             $.ajax({
                 type:'POST',
