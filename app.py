@@ -1,8 +1,16 @@
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename 
-import json
+import json, os
+from datetime import datetime
 
+# 현재 파일 절대 경로 저장
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# 플라스크 앱 실행
 app = Flask(__name__)
+
+# 임시 카운트
+count = 1
 
 # 라우팅
 @app.route('/upload')
@@ -20,9 +28,20 @@ def upload_file():
 
 @app.route('/receiveJson',methods=['POST'])
 def receive_json():
-    print(request.data)
-    print(request.get_json())
-    response = {'a':3}
+    response = request.get_json()
+
+    # k와 같은 폴더가 없으면 생성
+    if not os.path.isdir(os.path.join(BASE_DIR,'data')):
+        os.makedirs(os.path.join(BASE_DIR,'data'))
+    dir_name = os.path.join(BASE_DIR,'data')
+    # print(dir_name)
+
+    # json 파일로 저장    
+    global count
+    filename = '{}.json'.format(count)
+    with open(os.path.join(dir_name,filename), 'w', encoding='UTF-8') as fp:
+            json.dump(response, fp, ensure_ascii=False, indent='\t')
+    count += 1
     return json.dumps(response)
 
 @app.route('/draw_test')
