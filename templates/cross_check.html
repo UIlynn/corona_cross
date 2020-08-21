@@ -17,8 +17,6 @@
         <input type="file" id="user_file_btn" accept=".kml, .kmz, .gpx">
     </form>
 
-    <button id="saveBtn">저장하기</button>
-
     <div id="map" style="width:100%;height:400px;"></div>
 
     <!-- side box -->
@@ -37,62 +35,138 @@
         </table>
     </div> -->
 
-    <p>검색하고자 하는 아이템을 입력하세요.</p>
-    <input type = "text" name="SensorID" id="SensorID"/>
-    <input type = "button" value = "데이터 요청" onclick="test()"/>
 
     <script>
+        // 주요 요소
+        const map_div = document.querySelector('#map') // map div
+        let user_file_btn = document.querySelector('#user_file_btn'); // 유저 업로드 파일 버튼
+
+        // 맵 정보
         var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.40, 127.005399),
             zoomControl: true,
             zoomControlOptions: {
                 style: naver.maps.ZoomControlStyle.LARGE,
                 position: naver.maps.Position.TOP_RIGHT
             },
             mapTypeControl: true,
-            zoom: 15
+            zoom: 13
         });
 
 
-        var drawingManager;
-        naver.maps.Event.once(map, 'init_stylemap', function() {
-            drawingManager = new naver.maps.drawing.DrawingManager({map: map});
-            drawingManager.addDrawing(rect, naver.maps.drawing.DrawingMode.RECTANGLE, 'my-id');
-            drawingManager.addDrawing(polygon, naver.maps.drawing.DrawingMode.POLYGON);
-        });
-  
-        var geojson;
+        ////////// 함수 구현 영역 시작 ////////////////////
 
-        $("#saveBtn").on("click", function(e) {
-            e.preventDefault();
+        var loadJson;
+        // geoJSON으로 레이어 그리기
+        function startDataLayer(geojson) {
+            loadJson = geojson;
+            map.data.addGeoJson(geojson);
 
-            // if (geojson) {
-            //     restoreMap.data.removeGeoJson(geojson);
-            //     geojson = null;
-            // }
+            map.data.setStyle(function(feature) {
+                var color = 'red';
 
-            geojson = drawingManager.toGeoJson();
-            // restoreMap.data.addGeoJson(geojson, true);
-
-            // var data = JSON.parse(geojson);
-            // var data = 3;
-            // var data = geojson;
-            var data = JSON.stringify(geojson);
-            $.ajax({
-                type:'POST',
-                url : '/receiveJson',
-                contentType: "application/json",
-                data : data,
-                error : function(error) {
-                    alert("Error!");
-                },
-                success : function(data) {
-                    alert("success!");
-                },
-                complete : function() {
-                    alert("complete!");    
+                if (feature.getProperty('isColorful')) {
+                    color = feature.getProperty('color');
                 }
-            })
-        });
+
+                return {
+                    // fillColor: color,
+                    strokeColor: color,
+                    strokeWeight: 2,
+                    icon: null
+                };
+            });
+
+            // 클릭 이벤트 부여
+            map.data.addListener('click', function(e) {
+                e.feature.setProperty('isColorful', true);
+            });
+
+            // 더블 클릭 이벤트
+            map.data.addListener('dblclick', function(e) {
+                var bounds = e.feature.getBounds();
+
+                if (bounds) {
+                    map.panToBounds(bounds);
+                }
+            });
+
+            // 마우스 over 이벤트
+            map.data.addListener('mouseover', function(e) {
+                map.data.overrideStyle(e.feature, {
+                    strokeWeight: 8,
+                    icon: HOME_PATH +'/img/example/pin_spot.png'
+                });
+            });
+
+            // 마우스 아웃 이벤트
+            map.data.addListener('mouseout', function(e) {
+                map.data.revertStyle();
+            });
+        }
+
+       
+        // 저장된 geoJSON가져오기
+        function loadGeoJSON(){
+            // naver.maps.Event.once(map, 'init_stylemap', function () {
+                $.ajax({
+                    url: "{{url_for('static',filename='data/1.json')}}", //'./data/1.json', // HOME_PATH +'/data/naver.json',
+                    dataType: 'json',
+                    success: startDataLayer,
+                    error: console.log("error"),
+                });
+            // });
+        }
+
+
+        // 파일 정보를 불러와서 layer그리기
+        function drawKmlLayer(file){
+            const reader = new FileReader();
+            reader.readAsText(file);
+            reader.onloadend = () => {
+                // console.log(reader.result);
+                const oParser = new DOMParser();
+                userKml = oParser.parseFromString(reader.result, "text/xml");
+                console.log(userKml);
+
+                // set lineStyle
+                map.data.setStyle((feature) => {
+                    const color = 'blue';
+                    if (feature.getProperty('color')) {
+                        color = feature.getProperty('color');
+                    }
+                    return {
+                        strokeWeight : 5,
+                        strokeColor: color,
+                        // fillColor: color
+                    };
+                });
+
+                // draw line
+                map.data.addKml(userKml);
+            };
+        }
+
+
+        // 업로드한 kml 파일 지도에 그리기
+        function drawUploadKmlLayer(event) {
+            const file = event.target.files[0];
+
+            drawKmlLayer(file) // 파일 정보 넘겨서 그리기
+        }
+        
+
+        // 초기화
+        function init(){
+            // 업로드 버튼에 이벤트 추가
+            user_file_btn.addEventListener('change', drawUploadKmlLayer)
+
+            // 가져오기
+        }
+
+        init()
+
+
 
     </script>
 </body>
