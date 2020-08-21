@@ -63,15 +63,63 @@
 
         ////////// 함수 구현 영역 시작 ////////////////////
 
+        // 확진자 json 가져오기
+        function loadPersonJson(day,json_list){
+            json_list.forEach(num => {
+                let url = `/static/data/${day}/${num}.json` 
+                $.ajax({
+                    url : url,
+                    dataType: 'json',
+                    error : function(error) {
+                        console.log("Error!");
+                    },
+                    success : function(geojson) {
+                        console.log("success!");
+                        // geojson 레이어 그리기
+                        startDataLayer(geojson)
+                    },
+                    complete : function() {
+                        console.log("complete!");    
+                    }
+                })
+            })
+
+
+        }
+
+        // 날짜에 맞는 list.json 가져오기
+        function checkJsonList(day){
+            const url = `/static/data/${day}/list.json` 
+            // console.log(url);
+
+            // 반복
+            fetch(url).then( async res => {
+                json_list = await res.json()
+                return json_list
+            }).then( json_list => {
+                // json_list.forEach(num=>{
+                //     // console.log(num);
+                //     // json 불러오기
+                //     loadPersonJson(day,num);
+                // })
+                
+                // json 한번에 불러오기
+                loadPersonJson(day,json_list)
+            })
+        }
+
        
         // 선택 날짜 확인
         function checkDate(event){
             const pattern = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
-            day = dateInput.value;
+            const day = dateInput.value;
             if (!pattern.test(day)){
                 console.log("날짜 형식이 맞지 않습니다.");
                 return;
             }
+
+            // 날짜에 맞는 json 리스트 확인하기
+            checkJsonList(day);
         }
 
         
@@ -127,7 +175,7 @@
         // 저장된 geoJSON가져오기
         function loadGeoJSON(){
             $.ajax({
-                url: "{{url_for('static',filename='data/1.json')}}",
+                url: "{{url_for('static',filename='data/2020-08-21/1.json')}}",
                 dataType: 'json',
                 success: startDataLayer,
                 error: console.log("error"),
