@@ -13,9 +13,14 @@
 </head>
 
 <body>
-    <form id="FILE_FORM" method="post" enctype="multipart/form-data" action="">
-        <input type="file" id="user_file_btn" accept=".kml, .kmz, .gpx">
-    </form>
+    <span>확진자 날짜</span>
+    <input id="dateInput" type="date">
+    <button id="readBtn">조회하기</button>
+
+    <span>나의 경로(KML파일) 업로드</span>
+    <input type="file" id="userFileBtn" accept=".kml, .kmz, .gpx">
+
+
 
     <div id="map" style="width:100%;height:400px;"></div>
 
@@ -39,7 +44,9 @@
     <script>
         // 주요 요소
         const map_div = document.querySelector('#map') // map div
-        let user_file_btn = document.querySelector('#user_file_btn'); // 유저 업로드 파일 버튼
+        const userFileBtn = document.querySelector('#userFileBtn'); // 유저 업로드 파일 버튼
+        const dateInput = document.querySelector('#dateInput') // 날짜 입력
+        const readBtn = document.querySelector('#readBtn') // 날짜 선택 버튼
 
         // 맵 정보
         var map = new naver.maps.Map('map', {
@@ -56,7 +63,18 @@
 
         ////////// 함수 구현 영역 시작 ////////////////////
 
-        var loadJson;
+       
+        // 선택 날짜 확인
+        function checkDate(event){
+            const pattern = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
+            day = dateInput.value;
+            if (!pattern.test(day)){
+                console.log("날짜 형식이 맞지 않습니다.");
+                return;
+            }
+        }
+
+        
         // geoJSON으로 레이어 그리기
         function startDataLayer(geojson) {
             loadJson = geojson;
@@ -72,7 +90,7 @@
                 return {
                     // fillColor: color,
                     strokeColor: color,
-                    strokeWeight: 2,
+                    strokeWeight: 5,
                     icon: null
                 };
             });
@@ -108,14 +126,12 @@
        
         // 저장된 geoJSON가져오기
         function loadGeoJSON(){
-            // naver.maps.Event.once(map, 'init_stylemap', function () {
-                $.ajax({
-                    url: "{{url_for('static',filename='data/1.json')}}", //'./data/1.json', // HOME_PATH +'/data/naver.json',
-                    dataType: 'json',
-                    success: startDataLayer,
-                    error: console.log("error"),
-                });
-            // });
+            $.ajax({
+                url: "{{url_for('static',filename='data/1.json')}}",
+                dataType: 'json',
+                success: startDataLayer,
+                error: console.log("error"),
+            });
         }
 
 
@@ -159,15 +175,15 @@
         // 초기화
         function init(){
             // 업로드 버튼에 이벤트 추가
-            user_file_btn.addEventListener('change', drawUploadKmlLayer)
+            userFileBtn.addEventListener('change', drawUploadKmlLayer)
+
+            // 날짜 버튼 이벤트 추가
+            readBtn.addEventListener('click', checkDate);
 
             // 가져오기
         }
 
         init()
-
-
-
     </script>
 </body>
 
