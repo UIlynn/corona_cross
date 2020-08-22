@@ -50,13 +50,14 @@
             
             console.dir(feature);
             console.dir(feature.getProperty('color'));
-            if (feature.getProperty('color')) {
-                color = feature.getProperty('color');
+            if (feature.getProperty('strokeColor')) {
+                color = feature.getProperty('strokeColor');
             }
 
             return {
                 strokeColor: color,
-                fillColor: color
+                strokeWeight: 4,
+                // fillColor: color
             };
         });
 
