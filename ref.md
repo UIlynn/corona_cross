@@ -29,3 +29,8 @@
 ### 레이어 다른 스타일 지정하기, 이벤트 지정하기
 - https://navermaps.github.io/maps.js.ncp/docs/tutorial-2-DataLayer.html
 - https://navermaps.github.io/maps.js.ncp/docs/naver.maps.Data.html#~StyleOptions
+
+### Feature 스타일 적용해야됨
+- setStyle(styleOptions)
+- https://navermaps.github.io/maps.js.ncp/docs/naver.maps.Feature.html
+- 

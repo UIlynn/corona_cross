@@ -20,25 +20,7 @@
     <span>나의 경로(KML파일) 업로드</span>
     <input type="file" id="userFileBtn" accept=".kml, .kmz, .gpx">
 
-
-
     <div id="map" style="width:100%;height:400px;"></div>
-
-    <!-- side box -->
-    <!-- <div id="sidebar" style="height: 760px; width: 250px; border: 1px dashed black;">
-        <table id="sidebarTABLE">
-            <tbody id="sidebarTBODY">
-                <tr>
-                    <td><input type="checkbox" id="userAdded1"></td>
-                    <td>kml_test.kml</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" id="userAdded2"></td>
-                    <td>kml_test - 복사본.kml</td>
-                </tr>
-            </tbody>
-        </table>
-    </div> -->
 
 
     <script>
@@ -58,6 +40,24 @@
             },
             mapTypeControl: true,
             zoom: 13
+        });
+
+        var f;
+        // 맵 라인 스타일 설정
+        map.data.setStyle(function(feature) {
+            f = feature;
+            var color = 'red';
+            
+            console.dir(feature);
+            console.dir(feature.getProperty('color'));
+            if (feature.getProperty('color')) {
+                color = feature.getProperty('color');
+            }
+
+            return {
+                strokeColor: color,
+                fillColor: color
+            };
         });
 
 
@@ -128,20 +128,20 @@
             loadJson = geojson;
             map.data.addGeoJson(geojson);
 
-            map.data.setStyle(function(feature) {
-                var color = 'red';
+            // map.data.setStyle(function(feature) {
+            //     var color = 'red';
 
-                if (feature.getProperty('isColorful')) {
-                    color = feature.getProperty('color');
-                }
+            //     if (feature.getProperty('isColorful')) {
+            //         color = feature.getProperty('color');
+            //     }
 
-                return {
-                    // fillColor: color,
-                    strokeColor: color,
-                    strokeWeight: 5,
-                    icon: null
-                };
-            });
+            //     return {
+            //         // fillColor: color,
+            //         strokeColor: color,
+            //         strokeWeight: 5,
+            //         icon: null
+            //     };
+            // });
 
             // 클릭 이벤트 부여
             map.data.addListener('click', function(e) {
@@ -194,17 +194,17 @@
                 console.log(userKml);
 
                 // set lineStyle
-                map.data.setStyle((feature) => {
-                    const color = 'blue';
-                    if (feature.getProperty('color')) {
-                        color = feature.getProperty('color');
-                    }
-                    return {
-                        strokeWeight : 5,
-                        strokeColor: color,
-                        // fillColor: color
-                    };
-                });
+                // map.data.setStyle(function(feature){
+                //     const color = 'blue';
+                //     if (feature.getProperty('color')) {
+                //         color = feature.getProperty('color');
+                //     }
+                //     return {
+                //         strokeWeight : 5,
+                //         strokeColor: color,
+                //         // fillColor: color
+                //     };
+                // });
 
                 // draw line
                 map.data.addKml(userKml);
