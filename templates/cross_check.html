@@ -20,6 +20,8 @@
     <span>나의 경로(KML파일) 업로드</span>
     <input type="file" id="userFileBtn" accept=".kml, .kmz, .gpx">
 
+    <button id="delDateBtn">기존 경로 삭제하기 테스트</button>
+
     <div id="map" style="width:100%;height:400px;"></div>
 
 
@@ -29,6 +31,9 @@
         const userFileBtn = document.querySelector('#userFileBtn'); // 유저 업로드 파일 버튼
         const dateInput = document.querySelector('#dateInput') // 날짜 입력
         const readBtn = document.querySelector('#readBtn') // 날짜 선택 버튼
+        const delDateBtn = document.querySelector('#delDateBtn') // 날짜 경로 삭제 버튼
+
+        let geojsons = [];
 
         // 맵 정보
         var map = new naver.maps.Map('map', {
@@ -126,8 +131,9 @@
         
         // geoJSON으로 레이어 그리기
         function startDataLayer(geojson) {
-            loadJson = geojson;
             map.data.addGeoJson(geojson);
+
+            geojsons.push(geojson); // 관리 목적 추가
 
             // map.data.setStyle(function(feature) {
             //     var color = 'red';
@@ -221,6 +227,13 @@
         }
         
 
+        // 날짜별 경로 삭제
+        function delDatePath(){
+            geojsons.forEach(geojson=>{
+                map.data.removeGeoJson(geojson)
+            })
+        }
+
         // 초기화
         function init(){
             // 업로드 버튼에 이벤트 추가
@@ -230,6 +243,7 @@
             readBtn.addEventListener('click', checkDate);
 
             // 가져오기
+            delDateBtn.addEventListener('click', delDatePath)
         }
 
         init()
