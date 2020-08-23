@@ -21,6 +21,7 @@
     <input type="file" id="userFileBtn" accept=".kml, .kmz, .gpx">
 
     <button id="delDateBtn">기존 경로 삭제하기 테스트</button>
+    <button id="delUserBtn">기존 사용자 경로 삭제하기 테스트</button>
 
     <div id="map" style="width:100%;height:400px;"></div>
 
@@ -32,8 +33,10 @@
         const dateInput = document.querySelector('#dateInput') // 날짜 입력
         const readBtn = document.querySelector('#readBtn') // 날짜 선택 버튼
         const delDateBtn = document.querySelector('#delDateBtn') // 날짜 경로 삭제 버튼
+        const delUserBtn = document.querySelector('#delUserBtn') // 유저 경로 삭제 버튼
 
-        let geojsons = [];
+        const geojsons = [];
+        const userpaths = [];
 
         // 맵 정보
         var map = new naver.maps.Map('map', {
@@ -51,12 +54,13 @@
         // 맵 라인 스타일 설정
         map.data.setStyle(function(feature) {
             f = feature;
-            var color = 'red';
+            let color = 'red'; // 유저의 경로 표현
             
-            console.dir(feature);
-            console.dir(feature.getProperty('color'));
+            // console.dir(feature.getProperty('color'));
+            // 확진자 경로는 반드시 아래가 있음
             if (feature.getProperty('strokeColor')) {
-                color = feature.getProperty('strokeColor');
+                // color = feature.getProperty('strokeColor');
+                color = 'blue';
             }
 
             return {
@@ -69,8 +73,15 @@
 
         ////////// 함수 구현 영역 시작 ////////////////////
 
+        // 현 경로 정보 업데이트
+        function updatePath(){
+            base_features = Object.assign([],map.data.getAllFeature())
+        }
+
         // 확진자 json 가져오기
         function loadPersonJson(day,json_list){
+            delDatePath()// 기존 확진자 경로 삭제
+
             json_list.forEach(num => {
                 let url = `/static/data/${day}/${num}.json` 
                 $.ajax({
@@ -90,7 +101,8 @@
                 })
             })
 
-
+            // 업데이트 경로 정보
+            updatePath();
         }
 
         // 날짜에 맞는 list.json 가져오기
@@ -150,32 +162,32 @@
             //     };
             // });
 
-            // 클릭 이벤트 부여
-            map.data.addListener('click', function(e) {
-                e.feature.setProperty('isColorful', true);
-            });
+            // // 클릭 이벤트 부여
+            // map.data.addListener('click', function(e) {
+            //     e.feature.setProperty('isColorful', true);
+            // });
 
-            // 더블 클릭 이벤트
-            map.data.addListener('dblclick', function(e) {
-                var bounds = e.feature.getBounds();
+            // // 더블 클릭 이벤트
+            // map.data.addListener('dblclick', function(e) {
+            //     var bounds = e.feature.getBounds();
 
-                if (bounds) {
-                    map.panToBounds(bounds);
-                }
-            });
+            //     if (bounds) {
+            //         map.panToBounds(bounds);
+            //     }
+            // });
 
-            // 마우스 over 이벤트
-            map.data.addListener('mouseover', function(e) {
-                map.data.overrideStyle(e.feature, {
-                    strokeWeight: 8,
-                    icon: HOME_PATH +'/img/example/pin_spot.png'
-                });
-            });
+            // // 마우스 over 이벤트
+            // map.data.addListener('mouseover', function(e) {
+            //     map.data.overrideStyle(e.feature, {
+            //         strokeWeight: 8,
+            //         icon: HOME_PATH +'/img/example/pin_spot.png'
+            //     });
+            // });
 
-            // 마우스 아웃 이벤트
-            map.data.addListener('mouseout', function(e) {
-                map.data.revertStyle();
-            });
+            // // 마우스 아웃 이벤트
+            // map.data.addListener('mouseout', function(e) {
+            //     map.data.revertStyle();
+            // });
         }
 
        
@@ -213,8 +225,31 @@
                 //     };
                 // });
 
+                // 기존 map feature 저장
+                const base_features = Object.assign([],map.data.getAllFeature())
+                
+
                 // draw line
                 map.data.addKml(userKml);
+
+                // 사용자 경로 정보에 추가
+                const new_features = Object.assign([],map.data.getAllFeature()) // 새로운 feature
+                let count =0;
+                for (n_index in new_features){
+                    let chk = false;
+                    for (b_index in base_features){
+                        // console.log(new_features[n_index].id , base_features[b_index].id)
+                        // console.log(new_features[n_index].id==base_features[b_index].id)
+                        if (new_features[n_index].id==base_features[b_index].id){
+                            chk = true;
+                            break;
+                        }
+                    }
+                    if (!chk){
+                        userpaths.push(new_features[n_index]);
+                    }
+                }
+                console.log(new_features.length, count)
             };
         }
 
@@ -232,7 +267,21 @@
             geojsons.forEach(geojson=>{
                 map.data.removeGeoJson(geojson)
             })
+
+            geojsons.slice(0,geojsons.length); // 기존 경로 비우기
         }
+
+        // 사용자 경로 삭제
+        function delUserPath(){
+            console.log('실행');
+            userpaths.forEach(userpath=>{
+                map.data.removeFeature(userpath)
+            })
+
+            // userpaths = [];
+            userpaths.splice(0,userpaths.length);
+        }
+        
 
         // 초기화
         function init(){
@@ -242,8 +291,9 @@
             // 날짜 버튼 이벤트 추가
             readBtn.addEventListener('click', checkDate);
 
-            // 가져오기
+            // 삭제 이벤트 테스트
             delDateBtn.addEventListener('click', delDatePath)
+            delUserBtn.addEventListener('click', delUserPath)
         }
 
         init()
