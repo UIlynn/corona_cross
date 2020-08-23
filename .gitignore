@@ -1,4 +1,10 @@
 /maps.js.ncp-master
+/templates/index.html
+/templates/index1.html
+/templates/index2.html
+/templates/upload.html
+/test_data/
+/data
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/flask,venv
