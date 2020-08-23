@@ -9,7 +9,31 @@
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l9t7djgnzb"></script>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=drawing"></script>
-    </script>
+
+    <!-- kakao map -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=96f98198823e1b22e7b29bb2e9afc824&libraries=services"></script>
+
+    <style>
+        #map{
+            width:100%;
+            height:60vh;
+        }
+
+        #areaResult{
+            height:25vh;
+            overflow-y: scroll;
+        }
+        .result_area{
+            cursor: pointer;
+        }
+        .result_area:hover{
+            color:blue;
+        }
+        ul{
+            list-style: none;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -28,21 +52,27 @@
 
 
     <!-- 지도 div -->
-    <div id="map" style="width:100%;height:70vh;"></div>
+    <div id="map" style=""></div>
     <span> 동선에 마우스 오른쪽 클릭하면 삭제 가능</span>
     <span> 동선에 마우스 왼쪽 클릭하면 이동 및 수정 가능</span>
-    <!-- 이동 목록 지도 -->
-    <div class="areaResult">
-
+    
+    <div>
+        <h4>지역 검색 결과</h4>
+        <!-- 이동 목록 지도 -->
+        <div id="areaResult">
+    
+        </div>
     </div>
 
     <script>
-        const areaResult = document.querySelector('#areaResult'); // 결과
+
         const saveBtn = document.querySelector('#saveBtn'); // 확진자 경로 저장 버튼
         const personNo = document.querySelector('#personNo'); // 확진자 번호
         const personDate = document.querySelector('#personDate'); // 확진자 해당 날짜 경로
         const textSearch = document.querySelector('#textSearch'); // 지역검색 키워드
         const btnSearch = document.querySelector('#btnSearch'); // 검색버튼
+        const areaResult = document.querySelector('#areaResult'); // 지역 검색 결과
+        const ps = new kakao.maps.services.Places();  // 장소 검색 객체를 생성합니다
 
         var map = new naver.maps.Map('map', {
             zoomControl: true,
@@ -121,6 +151,40 @@
         }
 
 
+        // 지역대로 지도 이동
+        function moveTo(event){
+            const [lng, lat] = [event.target.getAttribute('x'), event.target.getAttribute('y')];
+            map.panTo(naver.maps.LatLng(lat, lng)) // 이동
+        }
+
+        // 지역 검색 완료 시 콜백 함수
+        function placesSearchCB (response, status, pagination) {
+            // console.dir(response);
+            if (status === kakao.maps.services.Status.OK) {
+                areaResult.innerHTML="";
+                
+                const ul = document.createElement('ul');
+                // 장소 선택 요소 만들기
+                response.forEach(element =>{
+                    const {id, place_name, address_name, x, y} = element;
+                    const li = document.createElement('li');
+                    li.classList.add('result_area')
+
+                    const a = document.createElement("a");
+                    a.setAttribute('localId',`${id}`);
+                    a.setAttribute('x', x);
+                    a.setAttribute('y', y);
+                    a.innerHTML=`${place_name} : ${address_name}`
+                    a.addEventListener('click', moveTo);
+
+                    li.appendChild(a);
+                    ul.appendChild(li); 
+                });
+
+                areaResult.append(ul);
+            } 
+        }
+
         // 지역 검색 함수
         function searchArea(){
             // console.log(">>> searchArea : ", textSearch.value);
@@ -134,10 +198,6 @@
     
             // 키워드로 장소를 검색합니다
             ps.keywordSearch(textSearch.value, placesSearchCB); 
-    
-            // modal open
-            $("#localSelectModal").modal();
-            
         };
 
 
