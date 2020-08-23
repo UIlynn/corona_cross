@@ -22,6 +22,7 @@
 
     <button id="delDateBtn">기존 경로 삭제하기 테스트</button>
     <button id="delUserBtn">기존 사용자 경로 삭제하기 테스트</button>
+    <button id="moveUserBtn">내 경로로 되돌아가기</button>
 
     <div id="map" style="width:100%;height:400px;"></div>
 
@@ -34,9 +35,11 @@
         const readBtn = document.querySelector('#readBtn') // 날짜 선택 버튼
         const delDateBtn = document.querySelector('#delDateBtn') // 날짜 경로 삭제 버튼
         const delUserBtn = document.querySelector('#delUserBtn') // 유저 경로 삭제 버튼
+        const moveUserBtn = document.querySelector('#moveUserBtn') // 현 위치로 되돌아가는 버튼
 
         const geojsons = [];
         const userpaths = [];
+        let zoomLevel = 10;
 
         // 맵 정보
         var map = new naver.maps.Map('map', {
@@ -47,7 +50,7 @@
                 position: naver.maps.Position.TOP_RIGHT
             },
             mapTypeControl: true,
-            zoom: 13
+            zoom: 10
         });
 
         var f;
@@ -73,11 +76,6 @@
 
         ////////// 함수 구현 영역 시작 ////////////////////
 
-        // 현 경로 정보 업데이트
-        function updatePath(){
-            base_features = Object.assign([],map.data.getAllFeature())
-        }
-
         // 확진자 json 가져오기
         function loadPersonJson(day,json_list){
             delDatePath()// 기존 확진자 경로 삭제
@@ -100,9 +98,6 @@
                     }
                 })
             })
-
-            // 업데이트 경로 정보
-            updatePath();
         }
 
         // 날짜에 맞는 list.json 가져오기
@@ -129,6 +124,8 @@
        
         // 선택 날짜 확인
         function checkDate(event){
+            zoomLevel = map.getZoom(); // 현재 줌 레벨 확인
+
             const pattern = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
             const day = dateInput.value;
             if (!pattern.test(day)){
@@ -138,12 +135,16 @@
 
             // 날짜에 맞는 json 리스트 확인하기
             checkJsonList(day);
+ 
+
         }
 
         
         // geoJSON으로 레이어 그리기
         function startDataLayer(geojson) {
+           
             map.data.addGeoJson(geojson);
+
 
             geojsons.push(geojson); // 관리 목적 추가
 
@@ -190,17 +191,6 @@
             // });
         }
 
-       
-        // 저장된 geoJSON가져오기
-        function loadGeoJSON(){
-            $.ajax({
-                url: "{{url_for('static',filename='data/2020-08-21/1.json')}}",
-                dataType: 'json',
-                success: startDataLayer,
-                error: console.log("error"),
-            });
-        }
-
 
         // 파일 정보를 불러와서 layer그리기
         function drawKmlLayer(file){
@@ -227,7 +217,6 @@
 
                 // 기존 map feature 저장
                 const base_features = Object.assign([],map.data.getAllFeature())
-                
 
                 // draw line
                 map.data.addKml(userKml);
@@ -249,7 +238,8 @@
                         userpaths.push(new_features[n_index]);
                     }
                 }
-                console.log(new_features.length, count)
+
+                moveUserPath() // 내 경로로 이동
             };
         }
 
@@ -283,6 +273,21 @@
         }
         
 
+        // 나의 경로로 되돌아가기
+        function moveUserPath(){
+
+            if (userpaths){
+                map.setZoom(zoomLevel);
+                map.setCenter(userpaths[userpaths.length-1].bounds._max)
+            }
+        }
+
+        function filterDate(){
+            dateInput.setAttribute('min',"2020-08-01")
+            dateInput.setAttribute('max',"2020-08-14")
+            // min="1977-01-01" max="2020-12-31"
+        }
+
         // 초기화
         function init(){
             // 업로드 버튼에 이벤트 추가
@@ -294,6 +299,11 @@
             // 삭제 이벤트 테스트
             delDateBtn.addEventListener('click', delDatePath)
             delUserBtn.addEventListener('click', delUserPath)
+            moveUserBtn.addEventListener('click', moveUserPath)
+
+            // 날짜 제한
+            filterDate();
+            
         }
 
         init()
