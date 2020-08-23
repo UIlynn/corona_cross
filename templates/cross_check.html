@@ -23,6 +23,7 @@
     <button id="delDateBtn">기존 경로 삭제하기 테스트</button>
     <button id="delUserBtn">기존 사용자 경로 삭제하기 테스트</button>
     <button id="moveUserBtn">내 경로로 되돌아가기</button>
+    <button id="moveGpsBtn">현재 위치로</button>
 
     <div id="map" style="width:100%;height:400px;"></div>
 
@@ -36,6 +37,7 @@
         const delDateBtn = document.querySelector('#delDateBtn') // 날짜 경로 삭제 버튼
         const delUserBtn = document.querySelector('#delUserBtn') // 유저 경로 삭제 버튼
         const moveUserBtn = document.querySelector('#moveUserBtn') // 현 위치로 되돌아가는 버튼
+        const moveGpsBtn = document.querySelector('#moveGpsBtn') // gps로 돌아가는 버튼
 
         const geojsons = [];
         const userpaths = [];
@@ -53,10 +55,14 @@
             zoom: 10
         });
 
-        var f;
+        naver.maps.Event.addListener(map, 'zoom_changed', function (zoom) {
+            zoomLevel = zoom;
+        });
+
+
         // 맵 라인 스타일 설정
         map.data.setStyle(function(feature) {
-            f = feature;
+            let f = feature;
             let color = 'red'; // 유저의 경로 표현
             
             // console.dir(feature.getProperty('color'));
@@ -86,15 +92,15 @@
                     url : url,
                     dataType: 'json',
                     error : function(error) {
-                        console.log("Error!");
+                        // console.log("Error!");
                     },
                     success : function(geojson) {
-                        console.log("success!");
+                        // console.log("success!");
                         // geojson 레이어 그리기
                         startDataLayer(geojson)
                     },
                     complete : function() {
-                        console.log("complete!");    
+                        // console.log("complete!");    
                     }
                 })
             })
@@ -129,13 +135,12 @@
             const pattern = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
             const day = dateInput.value;
             if (!pattern.test(day)){
-                console.log("날짜 형식이 맞지 않습니다.");
+                // console.log("날짜 형식이 맞지 않습니다.");
                 return;
             }
 
             // 날짜에 맞는 json 리스트 확인하기
             checkJsonList(day);
- 
 
         }
 
@@ -200,7 +205,7 @@
                 // console.log(reader.result);
                 const oParser = new DOMParser();
                 userKml = oParser.parseFromString(reader.result, "text/xml");
-                console.log(userKml);
+                // console.log(userKml);
 
                 // set lineStyle
                 // map.data.setStyle(function(feature){
@@ -263,7 +268,6 @@
 
         // 사용자 경로 삭제
         function delUserPath(){
-            console.log('실행');
             userpaths.forEach(userpath=>{
                 map.data.removeFeature(userpath)
             })
@@ -278,14 +282,28 @@
 
             if (userpaths){
                 map.setZoom(zoomLevel);
-                map.setCenter(userpaths[userpaths.length-1].bounds._max)
+                map.panTo(userpaths[userpaths.length-1].bounds._max)
             }
         }
 
+        // 날짜 제한
         function filterDate(){
             dateInput.setAttribute('min',"2020-08-01")
             dateInput.setAttribute('max',"2020-08-14")
             // min="1977-01-01" max="2020-12-31"
+        }
+
+        // gps 현위치로 이동 함수
+        function getLocation() {
+            if (navigator.geolocation) { // GPS를 지원하면
+                navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
+                    // console.log(latitude, longitude);
+                    
+                    map.panTo(naver.maps.LatLng(latitude, longitude)) // 현재 위치로 이동
+                })
+            } else {
+                alert('GPS를 지원하지 않습니다');
+            }
         }
 
         // 초기화
@@ -300,6 +318,7 @@
             delDateBtn.addEventListener('click', delDatePath)
             delUserBtn.addEventListener('click', delUserPath)
             moveUserBtn.addEventListener('click', moveUserPath)
+            moveGpsBtn.addEventListener('click', getLocation)
 
             // 날짜 제한
             filterDate();
