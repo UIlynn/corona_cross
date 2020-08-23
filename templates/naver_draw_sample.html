@@ -16,15 +16,33 @@
 
     <!-- 저장 버튼 -->
     <span>확진자 번호</span>
-    <input id="personNo" type="text">
+    <input id="personNo" type="number">
+
     <span>확진자 날짜</span>
     <input id="personDate" type="date">
     <button id="saveBtn">저장하기</button>
 
+ 
+    <input id="textSearch" type="text"placeholder="검색 장소 입력">
+    <button id="btnSearch">검색</button>
+
+
     <!-- 지도 div -->
-    <div id="map" style="width:100%;height:90vh;"></div>
+    <div id="map" style="width:100%;height:70vh;"></div>
+
+    <!-- 이동 목록 지도 -->
+    <div class="areaResult">
+
+    </div>
 
     <script>
+        const areaResult = document.querySelector('#areaResult'); // 결과
+        const saveBtn = document.querySelector('#saveBtn'); // 확진자 경로 저장 버튼
+        const personNo = document.querySelector('#personNo'); // 확진자 번호
+        const personDate = document.querySelector('#personDate'); // 확진자 해당 날짜 경로
+        const textSearch = document.querySelector('#textSearch'); // 지역검색 키워드
+        const btnSearch = document.querySelector('#btnSearch'); // 검색버튼
+
         var map = new naver.maps.Map('map', {
             zoomControl: true,
             zoomControlOptions: {
@@ -41,15 +59,27 @@
             drawingManager = new naver.maps.drawing.DrawingManager({map: map});
             // drawingManager.addDrawing(polygon, naver.maps.drawing.DrawingMode.POLYGON); // 폴리곤 그리기 예제
         });
-  
-        var geojson;
 
-        $("#saveBtn").on("click", function(e) {
-            e.preventDefault();
 
+        // 선택 날짜 확인
+        function checkDate(){
+            const pattern = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
+            const day = personDate.value;
+            console.log(day);
+            if (!pattern.test(day)){
+                // console.log("날짜 형식이 맞지 않습니다.");
+                return;
+            }
+            return day;
+        }
+
+        // 확진자 경로 저장
+        function savePath(event){
             geojson = drawingManager.toGeoJson(); // 현재 그리기를 toGeoJson 객체로 만들기
 
-            var data = JSON.stringify(geojson);
+            let number = personNo.value;
+            let data = {'number':number, 'day': checkDate(), 'geojson': geojson};
+            data = JSON.stringify(data);
             $.ajax({
                 type:'POST',
                 url : '/receiveJson',
@@ -65,7 +95,43 @@
                     alert("complete!");    
                 }
             })
-        });
+        }
+
+
+        // 지역 검색 함수
+        function searchArea(){
+            // console.log(">>> searchArea : ", textSearch.value);
+            let keyword = textSearch.value;
+    
+            // 유효성 검사
+            if (!keyword.replace(/^\s+|\s+$/g, '')) {
+                alert('검색 지역을 입력해주세요!');
+                return false;
+            }
+    
+            // 키워드로 장소를 검색합니다
+            ps.keywordSearch(textSearch.value, placesSearchCB); 
+    
+            // modal open
+            $("#localSelectModal").modal();
+            
+        };
+
+
+        // 초기화
+        function init(){
+            // 검색 버튼 이벤트 추가        
+            btnSearch.addEventListener('click', searchArea);
+            saveBtn.addEventListener('click', savePath);
+
+            document.querySelector('#textSearch').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    searchArea()
+                }
+            });
+        }
+
+        init();
 
     </script>
 </body>

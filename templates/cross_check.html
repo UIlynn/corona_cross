@@ -85,9 +85,10 @@
         // 확진자 json 가져오기
         function loadPersonJson(day,json_list){
             delDatePath()// 기존 확진자 경로 삭제
-
+            console.log(json_list);
             json_list.forEach(num => {
-                let url = `/static/data/${day}/${num}.json` 
+                // let url = `/static/data/${day}/${num}.json` 
+                let url = `/static/data/${day}/${num}` 
                 $.ajax({
                     url : url,
                     dataType: 'json',
@@ -109,7 +110,7 @@
         // 날짜에 맞는 list.json 가져오기
         function checkJsonList(day){
             const url = `/static/data/${day}/list.json` 
-            // console.log(url);
+            console.log(url);
 
             // 반복
             fetch(url).then( async res => {
@@ -324,6 +325,8 @@
             filterDate();
             
         }
+
+        
 
         init()
     </script>

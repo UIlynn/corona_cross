@@ -1,0 +1,141 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						126.970878,
+						37.3923269
+					],
+					[
+						126.9812635,
+						37.3961455
+					],
+					[
+						126.9824652,
+						37.3891218
+					],
+					[
+						126.9992021,
+						37.3990776
+					]
+				],
+				"mantle_properties": {
+					"strokeColor": "#007EEA",
+					"strokeOpacity": 1,
+					"strokeWeight": 2,
+					"strokeStyle": "solid",
+					"strokeLineCap": "butt",
+					"strokeLineJoin": "miter",
+					"visible": true,
+					"clickable": true,
+					"zIndex": 0,
+					"overlayType": "Polyline"
+				}
+			},
+			"properties": {
+				"strokeColor": "#007EEA",
+				"strokeOpacity": 1,
+				"strokeWeight": 2,
+				"strokeStyle": "solid",
+				"strokeLineCap": "butt",
+				"strokeLineJoin": "miter",
+				"visible": true,
+				"clickable": true,
+				"zIndex": 0,
+				"overlayType": "Polyline"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						126.9992021,
+						37.3993503
+					],
+					[
+						127.0006613,
+						37.3847572
+					]
+				],
+				"mantle_properties": {
+					"strokeColor": "#007EEA",
+					"strokeOpacity": 1,
+					"strokeWeight": 2,
+					"strokeStyle": "solid",
+					"strokeLineCap": "butt",
+					"strokeLineJoin": "miter",
+					"visible": true,
+					"clickable": true,
+					"endIcon": 2,
+					"zIndex": 0,
+					"overlayType": "Polyline"
+				}
+			},
+			"properties": {
+				"strokeColor": "#007EEA",
+				"strokeOpacity": 1,
+				"strokeWeight": 2,
+				"strokeStyle": "solid",
+				"strokeLineCap": "butt",
+				"strokeLineJoin": "miter",
+				"visible": true,
+				"clickable": true,
+				"endIcon": 2,
+				"zIndex": 0,
+				"overlayType": "Polyline"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "MultiPoint",
+				"coordinates": [
+					[
+						126.9857267,
+						37.3939294
+					],
+					[
+						126.9919065,
+						37.3987707
+					]
+				],
+				"mantle_properties": {
+					"strokeColor": "#007EEA",
+					"strokeOpacity": 1,
+					"strokeWeight": 1,
+					"strokeStyle": "solid",
+					"fillColor": "none",
+					"fillOpacity": 1,
+					"visible": true,
+					"clickable": true,
+					"zIndex": 0,
+					"overlayType": "Ellipse"
+				}
+			},
+			"properties": {
+				"strokeColor": "#007EEA",
+				"strokeOpacity": 1,
+				"strokeWeight": 1,
+				"strokeStyle": "solid",
+				"fillColor": "none",
+				"fillOpacity": 1,
+				"visible": true,
+				"clickable": true,
+				"zIndex": 0,
+				"overlayType": "Ellipse"
+			}
+		}
+	],
+	"bbox": [
+		126.970878,
+		37.3847572,
+		126.9919065,
+		37.3993503
+	]
+}
