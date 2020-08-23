@@ -29,7 +29,8 @@
 
     <!-- 지도 div -->
     <div id="map" style="width:100%;height:70vh;"></div>
-
+    <span> 동선에 마우스 오른쪽 클릭하면 삭제 가능</span>
+    <span> 동선에 마우스 왼쪽 클릭하면 이동 및 수정 가능</span>
     <!-- 이동 목록 지도 -->
     <div class="areaResult">
 
@@ -50,14 +51,30 @@
                 position: naver.maps.Position.TOP_RIGHT
             },
             mapTypeControl: true,
-            zoom: 15
+            zoom: 13
         });
 
-
+        // 그리기 모드 객체
         var drawingManager;
+    
         naver.maps.Event.once(map, 'init_stylemap', function() {
-            drawingManager = new naver.maps.drawing.DrawingManager({map: map});
-            // drawingManager.addDrawing(polygon, naver.maps.drawing.DrawingMode.POLYGON); // 폴리곤 그리기 예제
+            drawingManager = new naver.maps.drawing.DrawingManager({
+                map: map,
+                drawingControl: [
+                    naver.maps.drawing.DrawingMode.ARROWLINE,
+                    naver.maps.drawing.DrawingMode.ELLIPSE,
+                    naver.maps.drawing.DrawingMode.MARKER,
+                ],
+                // 오버레이의 스타일, 정의가 없는 경우 각 오버레이의 기본값을 사용
+                ellipseOptions: {
+                    strokeWeight: 4,
+                    strokeColor: '#ff0000'
+                },
+                arrowlineOptions: { // startIcon || endIcon 옵션이 없으면 endIcon 을 BLOCK_OPEN 으로 설정합니다.
+                    strokeWeight: 4,
+                    strokeColor: '#ff0000'
+                }
+            });
         });
 
 
@@ -67,7 +84,7 @@
             const day = personDate.value;
             console.log(day);
             if (!pattern.test(day)){
-                // console.log("날짜 형식이 맞지 않습니다.");
+                alert("날짜 형식이 맞지 않습니다.");
                 return;
             }
             return day;
@@ -78,6 +95,12 @@
             geojson = drawingManager.toGeoJson(); // 현재 그리기를 toGeoJson 객체로 만들기
 
             let number = personNo.value;
+            
+            if (number=null){
+                alert("확진자 번호를 입력하세요");
+                return;
+            }
+
             let data = {'number':number, 'day': checkDate(), 'geojson': geojson};
             data = JSON.stringify(data);
             $.ajax({
