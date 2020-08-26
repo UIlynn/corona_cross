@@ -125,7 +125,7 @@
                 
                 // json 한번에 불러오기
                 loadPersonJson(day,json_list)
-            })
+            }).catch(error => alert("해당 날짜 확진자 경로 정보가 없습니다."))
         }
 
        
@@ -328,7 +328,9 @@
 
             // 날짜 제한
             filterDate();
-            
+
+            // 날짜 선택 초기화
+            dateInput.value = new Date().toISOString().slice(0,10); // 오늘 날짜로 선택            
         }
 
         
