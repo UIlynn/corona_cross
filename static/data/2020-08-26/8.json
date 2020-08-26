@@ -1,0 +1,129 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						126.9173626,
+						37.5586228
+					],
+					[
+						126.9214825,
+						37.5618886
+					],
+					[
+						126.9250873,
+						37.5582145
+					],
+					[
+						126.935902,
+						37.5552207
+					],
+					[
+						126.9451717,
+						37.5561733
+					]
+				],
+				"mantle_properties": {
+					"strokeColor": "#ff0000",
+					"strokeOpacity": 1,
+					"strokeWeight": 4,
+					"strokeStyle": "solid",
+					"strokeLineCap": "butt",
+					"strokeLineJoin": "miter",
+					"visible": true,
+					"clickable": true,
+					"endIcon": 2,
+					"zIndex": 0,
+					"overlayType": "Polyline"
+				}
+			},
+			"properties": {
+				"strokeColor": "#ff0000",
+				"strokeOpacity": 1,
+				"strokeWeight": 4,
+				"strokeStyle": "solid",
+				"strokeLineCap": "butt",
+				"strokeLineJoin": "miter",
+				"visible": true,
+				"clickable": true,
+				"endIcon": 2,
+				"zIndex": 0,
+				"overlayType": "Polyline"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "MultiPoint",
+				"coordinates": [
+					[
+						126.9736675,
+						37.5714405
+					],
+					[
+						126.9815639,
+						37.578107
+					]
+				],
+				"mantle_properties": {
+					"strokeColor": "#ff0000",
+					"strokeOpacity": 1,
+					"strokeWeight": 4,
+					"strokeStyle": "solid",
+					"fillColor": "none",
+					"fillOpacity": 1,
+					"visible": true,
+					"clickable": true,
+					"zIndex": 0,
+					"overlayType": "Ellipse"
+				}
+			},
+			"properties": {
+				"strokeColor": "#ff0000",
+				"strokeOpacity": 1,
+				"strokeWeight": 4,
+				"strokeStyle": "solid",
+				"fillColor": "none",
+				"fillOpacity": 1,
+				"visible": true,
+				"clickable": true,
+				"zIndex": 0,
+				"overlayType": "Ellipse"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					126.9633678,
+					37.5587588
+				],
+				"mantle_properties": {
+					"cursor": "pointer",
+					"clickable": true,
+					"draggable": true,
+					"visible": true,
+					"overlayType": "Marker"
+				}
+			},
+			"properties": {
+				"cursor": "pointer",
+				"clickable": true,
+				"draggable": true,
+				"visible": true,
+				"overlayType": "Marker"
+			}
+		}
+	],
+	"bbox": [
+		126.9173626,
+		37.5552207,
+		126.9815639,
+		37.578107
+	]
+}

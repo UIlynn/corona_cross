@@ -1,0 +1,101 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						126.9602779,
+						37.5443329
+					],
+					[
+						126.9971851,
+						37.5805286
+					],
+					[
+						127.0079998,
+						37.5556289
+					],
+					[
+						127.0418171,
+						37.5773996
+					]
+				],
+				"mantle_properties": {
+					"strokeColor": "#ff0000",
+					"strokeOpacity": 1,
+					"strokeWeight": 4,
+					"strokeStyle": "solid",
+					"strokeLineCap": "butt",
+					"strokeLineJoin": "miter",
+					"visible": true,
+					"clickable": true,
+					"endIcon": 2,
+					"zIndex": 0,
+					"overlayType": "Polyline"
+				}
+			},
+			"properties": {
+				"strokeColor": "#ff0000",
+				"strokeOpacity": 1,
+				"strokeWeight": 4,
+				"strokeStyle": "solid",
+				"strokeLineCap": "butt",
+				"strokeLineJoin": "miter",
+				"visible": true,
+				"clickable": true,
+				"endIcon": 2,
+				"zIndex": 0,
+				"overlayType": "Polyline"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "MultiPoint",
+				"coordinates": [
+					[
+						127.0435337,
+						37.5632766
+					],
+					[
+						127.0625881,
+						37.5776989
+					]
+				],
+				"mantle_properties": {
+					"strokeColor": "#ff0000",
+					"strokeOpacity": 1,
+					"strokeWeight": 4,
+					"strokeStyle": "solid",
+					"fillColor": "none",
+					"fillOpacity": 1,
+					"visible": true,
+					"clickable": true,
+					"zIndex": 0,
+					"overlayType": "Ellipse"
+				}
+			},
+			"properties": {
+				"strokeColor": "#ff0000",
+				"strokeOpacity": 1,
+				"strokeWeight": 4,
+				"strokeStyle": "solid",
+				"fillColor": "none",
+				"fillOpacity": 1,
+				"visible": true,
+				"clickable": true,
+				"zIndex": 0,
+				"overlayType": "Ellipse"
+			}
+		}
+	],
+	"bbox": [
+		126.9602779,
+		37.5443329,
+		127.0625881,
+		37.5805286
+	]
+}

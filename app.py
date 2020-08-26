@@ -37,9 +37,9 @@ def receive_json():
         file_list.remove('list.json')
         with open(os.path.join(dir_name,'list.json'), 'w', encoding='UTF-8') as fp:
                 json.dump(file_list, fp, ensure_ascii=False, indent='\t')
-        return True
+        return {'data':True}
     except:
-        return False
+        return {'response':False}
 
 @app.route('/create_path')
 def draw_test():
