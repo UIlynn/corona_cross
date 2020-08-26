@@ -112,6 +112,8 @@
             const url = `/static/data/${day}/list.json` 
             console.log(url);
 
+            // 날짜 밖의 정보를 요청하면 막기
+          
             // 반복
             fetch(url).then( async res => {
                 json_list = await res.json()
@@ -139,6 +141,24 @@
                 // console.log("날짜 형식이 맞지 않습니다.");
                 return;
             }
+
+            // 가능 날짜 범위 밖으로 요청하면 막기 (2차 막기)
+            const max_date = new Date(); // 오늘까지
+            max_date.setHours(23,59,59)
+
+            const min_date = new Date(max_date); // 최소 날짜
+            min_date.setDate(min_date.getDate() -14 ); // 14일 이전
+            
+            const put_date = new Date(day); // 입력한 날짜
+            console.log(min_date)
+            console.log(max_date)
+            console.log(put_date)
+
+            if ((min_date > put_date) || (put_date > max_date)) {
+                alert("조회 가능 범위 밖입니다. 정상적인 기간을 입력하세요");
+                return
+            }
+
 
             // 날짜에 맞는 json 리스트 확인하기
             checkJsonList(day);
@@ -289,14 +309,13 @@
 
         // 날짜 제한
         function filterDate(){
-            const min_date = new Date();
-            const max_date = new Date(min_date);
-            max_date.setDate(min_date.getDate() + 14); // 14일 추가
+            const max_date = new Date();
+            const min_date = new Date(max_date);
+            min_date.setDate(min_date.getDate() - 14); // 14일 이전
             
             // console.log(min_date, max_date)
             dateInput.setAttribute('min',min_date.toISOString().slice(0,10)) // dateInput.setAttribute('min',"2020-08-01")
             dateInput.setAttribute('max',max_date.toISOString().slice(0,10)) // dateInput.setAttribute('max',"2020-08-14")
-            // min="1977-01-01" max="2020-12-31"
         }
 
         // gps 현위치로 이동 함수
