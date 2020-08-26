@@ -289,8 +289,13 @@
 
         // 날짜 제한
         function filterDate(){
-            dateInput.setAttribute('min',"2020-08-01")
-            dateInput.setAttribute('max',"2020-08-14")
+            const min_date = new Date();
+            const max_date = new Date(min_date);
+            max_date.setDate(min_date.getDate() + 14); // 14일 추가
+            
+            // console.log(min_date, max_date)
+            dateInput.setAttribute('min',min_date.toISOString().slice(0,10)) // dateInput.setAttribute('min',"2020-08-01")
+            dateInput.setAttribute('max',max_date.toISOString().slice(0,10)) // dateInput.setAttribute('max',"2020-08-14")
             // min="1977-01-01" max="2020-12-31"
         }
 
