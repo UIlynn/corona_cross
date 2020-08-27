@@ -1,0 +1,41 @@
+hr{
+    margin:2px 0;
+}
+
+section{
+    margin-top:0;
+}
+
+.row{
+    margin-top: 2px;
+}
+
+header>p{
+    font-weight: 600;
+    font-size : 5vw;
+    margin:0;
+}
+
+#functionBox{
+    border: 3px solid #afafaf;
+    border-radius: 5px;
+    background-color: #fbfaff;
+    padding-bottom : 5px;
+    max-width: 720px;
+}
+
+#functionBox>.row{
+    margin-top:5px;
+}
+
+#functionBox>.row:first-child>div{
+    /* border : 1px solid black; */
+}
+
+#functionBox button{
+    margin: 5px;
+}
+
+#userFileBox span{
+    font-weight: 600;
+}

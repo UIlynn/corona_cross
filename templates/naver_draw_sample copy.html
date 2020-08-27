@@ -13,14 +13,6 @@
     <!-- kakao map -->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=96f98198823e1b22e7b29bb2e9afc824&libraries=services"></script>
 
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-
-    <!-- style.css -->
-    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
-
     <style>
         #map{
             width:100%;
@@ -45,34 +37,26 @@
 </head>
 
 <body>
-    <section class="container">
-        <table class="table table-dark">
-            <thead>
-              <tr>
-                <th scope="col">확진자 번호</th>
-                <th scope="col">동선 날짜</th>
-                <th scope="col">저장</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td scope="row"><input id="personNo" type="number"></td>
-                <td><input id="personDate" type="date"></td>
-                <td><button id="saveBtn">저장하기</button></td>
-              </tr>
-            </tbody>
-          </table>
-    </section>
+
+    <!-- 저장 버튼 -->
+    <span>확진자 번호</span>
+    <input id="personNo" type="number">
+
+    <span>확진자 날짜</span>
+    <input id="personDate" type="date">
+    <button id="saveBtn">저장하기</button>
+
  
+    <input id="textSearch" type="text"placeholder="검색 장소 입력">
+    <button id="btnSearch">검색</button>
+
+
     <!-- 지도 div -->
     <div id="map" style=""></div>
     <span> 동선에 마우스 오른쪽 클릭하면 삭제 가능</span>
     <span> 동선에 마우스 왼쪽 클릭하면 이동 및 수정 가능</span>
     
-    <!-- 지역 탐색 -->
     <div>
-        <input id="textSearch" type="text"placeholder="검색 장소 입력">
-        <button id="btnSearch">검색</button>
         <h4>지역 검색 결과</h4>
         <!-- 이동 목록 지도 -->
         <div id="areaResult">
@@ -156,11 +140,9 @@
                 data : data,
                 error : function(error) {
                     console.log("Error!");
-                    console.log("Error!");
                 },
                 success : function(data) {
                     console.log("success!");
-                    alert("저장되었습니다.")
                 },
                 complete : function() {
                     console.log("complete!");    

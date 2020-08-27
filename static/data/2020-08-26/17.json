@@ -1,0 +1,117 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "LineString",
+				"coordinates": [
+					[
+						126.9829565,
+						37.3918912
+					],
+					[
+						126.9840723,
+						37.3923089
+					],
+					[
+						126.9852847,
+						37.3917378
+					],
+					[
+						126.9859498,
+						37.3910047
+					],
+					[
+						126.9865614,
+						37.3913457
+					],
+					[
+						126.9863468,
+						37.3915759
+					],
+					[
+						126.9852847,
+						37.3923771
+					],
+					[
+						126.9838255,
+						37.3931272
+					]
+				],
+				"mantle_properties": {
+					"strokeColor": "#ff0000",
+					"strokeOpacity": 1,
+					"strokeWeight": 4,
+					"strokeStyle": "solid",
+					"strokeLineCap": "butt",
+					"strokeLineJoin": "miter",
+					"visible": true,
+					"clickable": true,
+					"endIcon": 2,
+					"zIndex": 0,
+					"overlayType": "Polyline"
+				}
+			},
+			"properties": {
+				"strokeColor": "#ff0000",
+				"strokeOpacity": 1,
+				"strokeWeight": 4,
+				"strokeStyle": "solid",
+				"strokeLineCap": "butt",
+				"strokeLineJoin": "miter",
+				"visible": true,
+				"clickable": true,
+				"endIcon": 2,
+				"zIndex": 0,
+				"overlayType": "Polyline"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "MultiPoint",
+				"coordinates": [
+					[
+						126.9821733,
+						37.3918333
+					],
+					[
+						126.9830638,
+						37.3925663
+					]
+				],
+				"mantle_properties": {
+					"strokeColor": "#ff0000",
+					"strokeOpacity": 1,
+					"strokeWeight": 4,
+					"strokeStyle": "solid",
+					"fillColor": "none",
+					"fillOpacity": 1,
+					"visible": true,
+					"clickable": true,
+					"zIndex": 0,
+					"overlayType": "Ellipse"
+				}
+			},
+			"properties": {
+				"strokeColor": "#ff0000",
+				"strokeOpacity": 1,
+				"strokeWeight": 4,
+				"strokeStyle": "solid",
+				"fillColor": "none",
+				"fillOpacity": 1,
+				"visible": true,
+				"clickable": true,
+				"zIndex": 0,
+				"overlayType": "Ellipse"
+			}
+		}
+	],
+	"bbox": [
+		126.9821733,
+		37.3910047,
+		126.9865614,
+		37.3931272
+	]
+}
