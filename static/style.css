@@ -4,6 +4,7 @@ hr{
 
 section{
     margin-top:0;
+    clear:right;
 }
 
 .row{
@@ -39,3 +40,5 @@ header>p{
 #userFileBox span{
     font-weight: 600;
 }
+
+
