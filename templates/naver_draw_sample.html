@@ -41,7 +41,7 @@
             <tbody>
               <tr>
                 <th class="align-middle" scope="row">확진자 경로 입력</th>
-                <td class="align-middle"><input id="personNo" type="number"></td>
+                <td class="align-middle"><input id="personNo" type="number" min="1"></td>
                 <td class="align-middle"><input id="personDate" type="date"></td>
                 <td class="align-middle"><button id="saveBtn" class="btn btn-danger">저장하기</button></td>
               </tr>
@@ -139,7 +139,7 @@
 
             let number = personNo.value;
             
-            if (number==null){
+            if (number=="" || number<1){
                 alert("확진자 번호를 입력하세요");
                 return;
             }
